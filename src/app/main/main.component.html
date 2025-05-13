@@ -1,12 +1,26 @@
 <div class="sidebar">
-    <input type="text"  placeholder="Search"/>
+    <input 
+        type="text"  
+        placeholder="Search" 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="getAllLocations()"
+        />
     <div class="filters">
         <div class="dropdown">
-            <button class="dropdown-button">
+            <button class="dropdown-button" (click)="dropdownToggle = !dropdownToggle">
                 Filter by Rating
             </button>
-            <div className="dropdown-menu">
-                Dropdown
+            <div *ngIf="dropdownToggle" class="dropdown-menu">
+                <div *ngFor="let rating of ratings">
+                    <label class="dropdown-item">
+                        <input
+                            type="checkbox"
+                            [value]="rating"
+                            (click)="selectRating(rating)"
+                        />
+                        {{ rating }} Stars
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -22,12 +36,17 @@
     </tr>
     </thead>
     <tbody>
-        Locations
+        <tr *ngFor="let location of locations">
+            <td><input type="checkbox"/></td>
+            <td>{{ location.name }}</td>
+            <td>{{ location.dateVisited }}</td>
+            <td>{{ location.rating }}</td>
+        </tr>
     </tbody>
 </table>
-
+<!-- 
 <div class="button-container">
     <button class="button" >Add</button>
     <button class="button" >Remove</button>
     <button class="button" >Update</button>
-</div>
+</div> -->
