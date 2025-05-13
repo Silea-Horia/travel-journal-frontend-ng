@@ -1,4 +1,4 @@
-.sidebar {
+/* .sidebar {
     float: left;
 }
 
@@ -14,4 +14,112 @@
 .location-list {
     height: 200px;
     overflow-y: scroll;
+} */
+
+.body {
+    font-family: 'Georgia', serif;
+    background: #fdf6e3; /* cream paper tone */
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff8dc;
+    border-right: 2px dashed #d2b48c;
+    max-height: 100vh;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    position: fixed;
+}
+
+input[type="text"], .button {
+    font-family: 'Georgia', serif;
+    border: 1px solid #c2b280;
+    background-color: #fffef0;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.button {
+    background-color: #d2b48c;
+    color: white;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #c2a67d;
+}
+
+.filters, .button-container {
+    margin-bottom: 20px;
+}
+
+.dropdown-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #eee0cb;
+    border: 1px solid #c2b280;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+}
+
+.dropdown-menu {
+    margin-top: 5px;
+    border: 1px dashed #c2b280;
+    background-color: #fdf6e3;
+    padding: 10px;
+}
+
+.dropdown-item {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.location-details {
+    margin-top: 20px;
+}
+
+.update-location-form,
+.create-location-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.location-list {
+    margin-left: 320px;
+    padding: 20px;
+    max-height: 100vh;
+    overflow-y: auto;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 100% 2.5em;
+    font-family: 'Georgia', serif;
+    overflow-y: scroll;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th,
+.table td {
+    border-bottom: 1px dashed #c2b280;
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #eee0cb;
+    font-weight: normal;
+}
+
+.table tr:hover {
+    background-color: #f0e6d2;
 }

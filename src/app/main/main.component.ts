@@ -40,6 +40,8 @@ export class MainComponent implements OnInit {
         try {
             await this.services.create(name, dateVisited, rating);
             
+            this.locations = [];
+            this.currentPage = 1;
             await this.getAllLocations();
         } catch (error) {
             console.error('Error creating locations:', error);
@@ -50,6 +52,8 @@ export class MainComponent implements OnInit {
         try {
             await this.services.update(this.selectedLocationsIds[0], name, dateVisited, rating);
             
+            this.locations = [];
+            this.currentPage = 1;
             await this.getAllLocations();
         } catch (error) {
             console.error('Error updating locations:', error);
@@ -65,7 +69,8 @@ export class MainComponent implements OnInit {
             await Promise.all(deletePromises);
 
             this.selectedLocationsIds = [];
-            
+            this.locations = [];
+            this.currentPage = 1;
             await this.getAllLocations();
         } catch (error) {
             console.error('Error deleting locations:', error);
