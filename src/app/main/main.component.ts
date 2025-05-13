@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 import { Location } from '../../model/location';
@@ -16,6 +16,7 @@ export class MainComponent implements OnInit {
     ratings: number[] = [0, 1, 2, 3, 4, 5];
 
     dropdownToggle: boolean = false;
+    visibleDetails: boolean = false;
 
     selectedLocationsIds: number[] = [];
     searchTerm: string = '';
@@ -40,6 +41,16 @@ export class MainComponent implements OnInit {
             await Promise.all(deletePromises);
 
             this.selectedLocationsIds = [];
+            
+            await this.getAllLocations();
+        } catch (error) {
+            console.error('Error deleting locations:', error);
+        }
+    }
+
+    async updateLocation(name: string, dateVisited: string, rating: number) {
+        try {
+            await this.services.update(this.selectedLocationsIds[0], name, dateVisited, rating);
             
             await this.getAllLocations();
         } catch (error) {
@@ -72,5 +83,9 @@ export class MainComponent implements OnInit {
         console.log(this.selectedLocationsIds.includes(location.id));
 
         this.getAllLocations()
+    }
+
+    getSelectedLocation(): Location {
+        return this.locations.filter(location => location.id == this.selectedLocationsIds[0])[0];
     }
 }

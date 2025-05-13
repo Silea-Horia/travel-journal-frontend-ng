@@ -32,6 +32,19 @@ export class ServicesService {
         }
     }
 
+    async update(id: number, name: string, dateVisited: string, rating: number) {
+        try {
+            const response = await axios.put(`${this.backendUrl}/${id}`, {
+                name,
+                dateVisited,
+                rating,
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error updating location:', error);
+        }
+    }
+
     async delete(id: number) {
         try {
             await axios.delete(`${this.backendUrl}/${id}`);
