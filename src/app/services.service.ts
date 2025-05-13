@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { faker } from '@faker-js/faker';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ServicesService {
     private backendUrl: string = 'http://localhost:8080/api/locations';
-    constructor() { }
+    constructor() { 
+        for (let i = 0; i < 100; i++) {
+            this.generateRandomLocation();
+        }
+    }
+
+    generateRandomLocation() {
+        let name = faker.location.city();
+        let dateVisited = faker.date.past({years: 20}).toISOString().slice(0, 10);
+        let rating = faker.number.int({min: 0, max: 5});
+        this.create(name, dateVisited, rating);
+    }
 
     async getAll(searchTerm: string = '', ratings: number[] = [], page: number = 1) {
         try {
