@@ -32,6 +32,15 @@ export class ServicesService {
         }
     }
 
+    async create(name: string, dateVisited: string, rating: number) {
+        try {
+            const response = await axios.post(this.backendUrl, { name, dateVisited, rating });
+            return response.data;
+        } catch (error) {
+            console.error('Error creating location:', error);
+        }
+    }
+
     async update(id: number, name: string, dateVisited: string, rating: number) {
         try {
             const response = await axios.put(`${this.backendUrl}/${id}`, {

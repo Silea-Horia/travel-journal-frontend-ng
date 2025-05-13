@@ -16,7 +16,7 @@ export class MainComponent implements OnInit {
     ratings: number[] = [0, 1, 2, 3, 4, 5];
 
     dropdownToggle: boolean = false;
-    visibleDetails: boolean = false;
+    createToggle: boolean = false;
 
     selectedLocationsIds: number[] = [];
     searchTerm: string = '';
@@ -32,6 +32,26 @@ export class MainComponent implements OnInit {
         this.locations = (await this.services.getAll(this.searchTerm, this.selectedRatings, 1)).content;
     }
 
+    async createLocation(name: string, dateVisited: string, rating: number) {
+        try {
+            await this.services.create(name, dateVisited, rating);
+            
+            await this.getAllLocations();
+        } catch (error) {
+            console.error('Error creating locations:', error);
+        }
+    }
+
+    async updateLocation(name: string, dateVisited: string, rating: number) {
+        try {
+            await this.services.update(this.selectedLocationsIds[0], name, dateVisited, rating);
+            
+            await this.getAllLocations();
+        } catch (error) {
+            console.error('Error updating locations:', error);
+        }
+    }
+
     async deleteLocations() {
         const deletePromises = this.selectedLocationsIds.map(locationId => 
             this.services.delete(locationId)
@@ -41,16 +61,6 @@ export class MainComponent implements OnInit {
             await Promise.all(deletePromises);
 
             this.selectedLocationsIds = [];
-            
-            await this.getAllLocations();
-        } catch (error) {
-            console.error('Error deleting locations:', error);
-        }
-    }
-
-    async updateLocation(name: string, dateVisited: string, rating: number) {
-        try {
-            await this.services.update(this.selectedLocationsIds[0], name, dateVisited, rating);
             
             await this.getAllLocations();
         } catch (error) {
