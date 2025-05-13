@@ -24,69 +24,76 @@
             </div>
         </div>
     </div>
+    <div class="button-container">
+        <button class="button" (click)="deleteLocations()" [disabled]="selectedLocationsIds.length == 0">Delete</button>
+        <button class="button" (click)="createToggle = !createToggle">Create</button>
+    </div>
+
+    <div *ngIf="selectedLocationsIds.length == 1" class="location-details">
+        <form class="update-location-form">
+            <span>Name:</span>
+                <input class="location-name-field" type="text" #locationName [value]="getSelectedLocation().name"/>
+            <span>Date Visited:</span>
+                <input class="location-date-field" type="text" #locationDate [value]="getSelectedLocation().dateVisited"/>
+            <span>Rating:</span>
+                <input class="product-rating-field" type="text" #locationRating [value]="getSelectedLocation().rating"/>
+            <button 
+                class="button" 
+                [disabled]="selectedLocationsIds.length != 1" 
+                (click)="updateLocation(locationName.value, locationDate.value, +locationRating.value)"
+                >
+                Update
+            </button>
+        </form>
+    </div>
+
+    <div *ngIf="createToggle" class="location-details">
+        <form class="create-location-form">
+            <span>Name:</span>
+                <input class="location-name-field" type="text" #locationName/>
+            <span>Date Visited:</span>
+                <input class="location-date-field" type="text" #locationDate/>
+            <span>Rating:</span>
+                <input class="product-rating-field" type="text" #locationRating/>
+            <button 
+                class="button"
+                (click)="createLocation(locationName.value, locationDate.value, +locationRating.value); createToggle = false"
+                >
+                Done
+            </button>
+        </form>
+    </div>
 </div>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Select</th>
-        <th>Name</th>
-        <th>Date Visited</th>
-        <th>Rating</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let location of locations">
-            <td>
-                <input
-                    type="checkbox" 
-                    [checked]="selectedLocationsIds.includes(location.id)"
-                    (change)="selectLocation(location)"
-                />
-            </td>
-            <td>{{ location.name }}</td>
-            <td>{{ location.dateVisited }}</td>
-            <td>{{ location.rating }}</td>
+<div class="location-list"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="1000"
+        [scrollWindow]="false"
+        (scrolled)="onScroll()">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>Date Visited</th>
+            <th>Rating</th>
         </tr>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <tr *ngFor="let location of locations">
+                <td>
+                    <input
+                        type="checkbox" 
+                        [checked]="selectedLocationsIds.includes(location.id)"
+                        (change)="selectLocation(location)"
+                    />
+                </td>
+                <td>{{ location.name }}</td>
+                <td>{{ location.dateVisited }}</td>
+                <td>{{ location.rating }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<div class="button-container">
-    <button class="button" (click)="deleteLocations()" [disabled]="selectedLocationsIds.length == 0">Delete</button>
-    <button class="button" (click)="createToggle = !createToggle">Create</button>
-</div>
-
-<div *ngIf="selectedLocationsIds.length == 1" class="location-details">
-    <form class="update-location-form">
-        <span>Name:</span>
-            <input class="location-name-field" type="text" #locationName [value]="getSelectedLocation().name"/>
-        <span>Date Visited:</span>
-            <input class="location-date-field" type="text" #locationDate [value]="getSelectedLocation().dateVisited"/>
-        <span>Rating:</span>
-            <input class="product-rating-field" type="text" #locationRating [value]="getSelectedLocation().rating"/>
-        <button 
-            class="button" 
-            [disabled]="selectedLocationsIds.length != 1" 
-            (click)="updateLocation(locationName.value, locationDate.value, +locationRating.value)"
-            >
-            Update
-        </button>
-    </form>
-</div>
-
-<div *ngIf="createToggle" class="location-details">
-    <form class="create-location-form">
-        <span>Name:</span>
-            <input class="location-name-field" type="text" #locationName/>
-        <span>Date Visited:</span>
-            <input class="location-date-field" type="text" #locationDate/>
-        <span>Rating:</span>
-            <input class="product-rating-field" type="text" #locationRating/>
-        <button 
-            class="button"
-            (click)="createLocation(locationName.value, locationDate.value, +locationRating.value); createToggle = false"
-            >
-            Done
-        </button>
-    </form>
 </div>

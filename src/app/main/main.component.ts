@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { Location } from '../../model/location';
 import { ServicesService } from '../services.service';
 
 @Component({
     selector: 'app-main',
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, InfiniteScrollModule],
     templateUrl: './main.component.html',
     styleUrl: './main.component.css'
 })
@@ -22,6 +23,8 @@ export class MainComponent implements OnInit {
     searchTerm: string = '';
     selectedRatings: number[] = [];
 
+    currentPage: number = 1;
+
     constructor(private services: ServicesService) {}
 
     ngOnInit(): void {
@@ -29,7 +32,8 @@ export class MainComponent implements OnInit {
     }
 
     async getAllLocations() {
-        this.locations = (await this.services.getAll(this.searchTerm, this.selectedRatings, 1)).content;
+        let response = (await this.services.getAll(this.searchTerm, this.selectedRatings, this.currentPage));
+        this.locations = this.locations.concat(response.content);
     }
 
     async createLocation(name: string, dateVisited: string, rating: number) {
@@ -97,5 +101,11 @@ export class MainComponent implements OnInit {
 
     getSelectedLocation(): Location {
         return this.locations.filter(location => location.id == this.selectedLocationsIds[0])[0];
+    }
+
+    onScroll() {
+        console.log("scrolled");
+        this.currentPage++;
+        this.getAllLocations();
     }
 }

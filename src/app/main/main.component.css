@@ -1,0 +1,17 @@
+.sidebar {
+    float: left;
+}
+
+.location-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-location-form {
+    display: flex;
+}
+
+.location-list {
+    height: 200px;
+    overflow-y: scroll;
+}
