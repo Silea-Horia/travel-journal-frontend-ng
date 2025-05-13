@@ -31,4 +31,15 @@ export class ServicesService {
             };
         }
     }
+
+    async delete(id: number) {
+        try {
+            await axios.delete(`${this.backendUrl}/${id}`);
+            return true;
+        } catch (error) {
+            console.error('Error deleting location');
+        }
+
+        return true;
+    }
 }

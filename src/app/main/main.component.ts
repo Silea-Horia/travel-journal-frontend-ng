@@ -17,18 +17,34 @@ export class MainComponent implements OnInit {
 
     dropdownToggle: boolean = false;
 
+    selectedLocationsIds: number[] = [];
     searchTerm: string = '';
     selectedRatings: number[] = [];
 
     constructor(private services: ServicesService) {}
 
     ngOnInit(): void {
-        console.log('here');
         this.getAllLocations();
     }
 
     async getAllLocations() {
         this.locations = (await this.services.getAll(this.searchTerm, this.selectedRatings, 1)).content;
+    }
+
+    async deleteLocations() {
+        const deletePromises = this.selectedLocationsIds.map(locationId => 
+            this.services.delete(locationId)
+        );
+
+        try {
+            await Promise.all(deletePromises);
+
+            this.selectedLocationsIds = [];
+            
+            await this.getAllLocations();
+        } catch (error) {
+            console.error('Error deleting locations:', error);
+        }
     }
 
     selectRating(rating: number): void {
@@ -43,4 +59,18 @@ export class MainComponent implements OnInit {
         this.getAllLocations()
     }
 
+    selectLocation(location: Location): void {
+        const index = this.selectedLocationsIds.indexOf(location.id, 0);
+
+        if (index > -1) {
+            this.selectedLocationsIds.splice(index, 1);
+        } else {
+            this.selectedLocationsIds.push(location.id);
+        }
+
+        console.log(this.selectedLocationsIds);
+        console.log(this.selectedLocationsIds.includes(location.id));
+
+        this.getAllLocations()
+    }
 }

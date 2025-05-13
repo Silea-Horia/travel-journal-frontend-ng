@@ -37,16 +37,22 @@
     </thead>
     <tbody>
         <tr *ngFor="let location of locations">
-            <td><input type="checkbox"/></td>
+            <td>
+                <input
+                    type="checkbox" 
+                    [checked]="selectedLocationsIds.includes(location.id)"
+                    (change)="selectLocation(location)"
+                />
+            </td>
             <td>{{ location.name }}</td>
             <td>{{ location.dateVisited }}</td>
             <td>{{ location.rating }}</td>
         </tr>
     </tbody>
 </table>
-<!-- 
+
 <div class="button-container">
     <button class="button" >Add</button>
-    <button class="button" >Remove</button>
+    <button class="button" (click)="deleteLocations()">Delete</button>
     <button class="button" >Update</button>
-</div> -->
+</div>
