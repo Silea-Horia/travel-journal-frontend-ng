@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { faker } from '@faker-js/faker';
+import { environment } from '../../environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ServicesService {
-    private backendUrl: string = 'http://localhost:8080/api/locations';
+    private backendUrl: string = environment.NG_APP_API_URL;
+    
     constructor() { 
-        for (let i = 0; i < 100; i++) {
-            this.generateRandomLocation();
-        }
+        console.log(environment.NG_APP_API_URL);
     }
 
     generateRandomLocation() {
@@ -20,26 +20,27 @@ export class ServicesService {
         this.create(name, dateVisited, rating);
     }
 
-    async getAll(searchTerm: string = '', ratings: number[] = [], page: number = 1) {
+    async getAll(searchTerm: string = '', ratings: number[] = [], page: number = 0, size: number = 30) {
         try {
             const params = new URLSearchParams();
-            if (searchTerm) params.append('name', searchTerm);
+            if (searchTerm) params.append('search', searchTerm);
             ratings.forEach((rating) => params.append('ratings', rating.toString()));
-            params.append('page', (page - 1).toString());
+            params.append('page', page.toString());
+            params.append('size', size.toString());
 
             const response = await axios.get(`${this.backendUrl}?${params.toString()}`);
 
             return {
                 content: response.data.content,
                 totalPages: response.data.totalPages || 1,
-                page: page,
+                page: page + 1 // Return 1-based page for frontend
             };
         } catch (error) {
-            console.error('Error fetching locations');
+            console.error('Error fetching locations:', error);
             return {
                 content: [],
                 totalPages: 1,
-                page: page,
+                page: page + 1
             };
         }
     }
@@ -71,9 +72,8 @@ export class ServicesService {
             await axios.delete(`${this.backendUrl}/${id}`);
             return true;
         } catch (error) {
-            console.error('Error deleting location');
+            console.error('Error deleting location:', error);
         }
-
         return true;
     }
 }
