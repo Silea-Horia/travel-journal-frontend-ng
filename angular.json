@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/travel-journal-frontend/browser",
+            "outputPath": "dist/travel-journal-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -98,7 +98,7 @@
         "deploy": {
           "builder": "@netlify-builder/deploy:deploy",
           "options": {
-            "outputPath": "dist/travel-journal-frontend",
+            "outputPath": "dist/travel-journal-frontend/browser",
             "netlifyToken": "athos",
             "siteId": ""
           }
