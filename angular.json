@@ -94,6 +94,14 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/travel-journal-frontend",
+            "netlifyToken": "athos",
+            "siteId": ""
+          }
         }
       }
     }
